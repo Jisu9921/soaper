@@ -19,17 +19,23 @@ class Response:
 
     def xml_to_dict(self, r, root=True):
         if root:
-            return {r.tag: self.xml_to_dict(r, False)}
+            return {self.strip_tag_name(r.tag): self.xml_to_dict(r, False)}
         d = copy(r.attrib)
         if r.text:
             d['text'] = r.text
         for x in r.findall("./*"):
             if x.tag not in d:
-                d[x.tag] = []
-            d[x.tag].append(self.xml_to_dict(x, False))
+                d[self.strip_tag_name(x.tag)] = []
+            d[self.strip_tag_name(x.tag)].append(self.xml_to_dict(x, False))
         return d
 
     @staticmethod
     def url_decode(data):
         return unquote(data)
 
+    @staticmethod
+    def strip_tag_name(t):
+        idx = t.rfind("}")
+        if idx != -1:
+            t = t[idx + 1:]
+        return t

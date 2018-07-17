@@ -3,7 +3,7 @@ from os import path
 
 
 setup(name='soaper',
-      version='0.2',
+      version='0.3',
       description='soap data parser',
       url='https://github.com/Jisu9921/soaper',
       author='Jisu9921',
